@@ -12,9 +12,10 @@ Responsibilities
 ----------------
 1. Initialize the webcam.
 2. Initialize the YOLO detector.
-3. Detect people in real-time.
+3. Detect persons and mobile phones.
 4. Draw detection results.
-5. Exit safely when 'Q' is pressed.
+5. Display live counters.
+6. Exit safely when 'Q' is pressed.
 =========================================================
 """
 
@@ -23,7 +24,12 @@ import cv2
 from utils.camera import initialize_camera, release_camera
 from utils.constants import WINDOW_NAME
 from utils.detector import ObjectDetector
-from utils.drawing import draw_detection, draw_person_count
+from utils.drawing import (
+    draw_detection,
+    draw_person_count,
+    draw_mobile_count,
+)
+from utils.mobile_detector import get_mobile_detections
 
 
 def main():
@@ -54,8 +60,6 @@ def main():
 
             # Read current frame
             success, frame = camera.read()
-            # Store total detected persons in the current frame.
-            person_count = 0
 
             if not success:
                 print("Error: Unable to capture frame.")
@@ -64,19 +68,26 @@ def main():
             # Run YOLO detection
             detections = detector.detect(frame)
 
-            # Draw only PERSON detections
+            # Get only mobile detections
+            mobile_detections = get_mobile_detections(detections)
+
+            # Frame-wise counters
+            person_count = 0
+            mobile_count = len(mobile_detections)
+
+            # ----------------------------------------
+            # Draw Person Detections
+            # ----------------------------------------
             for detection in detections:
 
                 if detection["class_name"] != "person":
                     continue
 
-                # Increment the detected person count.
                 person_count += 1
 
                 x1, y1, x2, y2 = detection["bbox"]
-                confidence = detection["confidence"]
 
-                label = f"Person {confidence:.2f}"
+                label = f"Person {detection['confidence']:.2f}"
 
                 draw_detection(
                     frame,
@@ -84,11 +95,34 @@ def main():
                     y1,
                     x2,
                     y2,
-                    label
+                    label,
+                    color=(0, 255, 0)
                 )
 
-                # Display total detected persons.
-                draw_person_count(frame, person_count)
+            # ----------------------------------------
+            # Draw Mobile Detections
+            # ----------------------------------------
+            for detection in mobile_detections:
+
+                x1, y1, x2, y2 = detection["bbox"]
+
+                label = f"Mobile {detection['confidence']:.2f}"
+
+                draw_detection(
+                    frame,
+                    x1,
+                    y1,
+                    x2,
+                    y2,
+                    label,
+                    color=(255, 0, 0)
+                )
+
+            # ----------------------------------------
+            # Draw Counters
+            # ----------------------------------------
+            draw_person_count(frame, person_count)
+            draw_mobile_count(frame, mobile_count)
 
             # Display frame
             cv2.imshow(WINDOW_NAME, frame)

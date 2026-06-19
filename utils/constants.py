@@ -47,3 +47,17 @@ YOLO_MODEL_NAME = "yolov8n.pt"
 # Default confidence threshold.
 # Objects below this confidence will be ignored.
 YOLO_CONFIDENCE = 0.50
+
+# =========================================================
+# Mobile Phone Detection Settings
+# =========================================================
+
+# Minimum confidence required for mobile phone detection.
+# Lower values increase detections but also increase false positives.
+# Higher values reduce false positives but may miss some phones.
+MOBILE_CONFIDENCE = 0.60
+
+# Number of consecutive frames required before confirming
+# that a mobile phone is actually detected.
+# (Will be used in a later milestone.)
+MOBILE_FRAME_THRESHOLD = 5

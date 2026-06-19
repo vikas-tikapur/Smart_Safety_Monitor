@@ -33,7 +33,7 @@ No detection logic should be written here.
 import cv2
 
 
-def draw_detection(frame, x1, y1, x2, y2, label):
+def draw_detection(frame, x1, y1, x2, y2, label, color=(0, 255, 0)):
     """
     Draw a bounding box and label on the frame.
 
@@ -43,58 +43,66 @@ def draw_detection(frame, x1, y1, x2, y2, label):
         Current webcam frame.
 
     x1, y1 : int
-        Top-left corner of the bounding box.
+        Top-left corner.
 
     x2, y2 : int
-        Bottom-right corner of the bounding box.
+        Bottom-right corner.
 
     label : str
-        Text displayed above the bounding box.
+        Label to display.
+
+    color : tuple
+        Bounding box color in BGR format.
     """
 
-    # Draw a green rectangle around the detected object.
+    # Draw bounding box
     cv2.rectangle(
         frame,
         (x1, y1),
         (x2, y2),
-        (0, 255, 0),
+        color,
         2
     )
 
-    # Display the object label with confidence score.
+    # Draw label
     cv2.putText(
         frame,
         label,
         (x1, y1 - 10),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.6,
-        (0, 255, 0),
+        color,
         2
     )
 
 
 def draw_person_count(frame, person_count):
     """
-    Display the total number of detected persons.
-
-    Parameters
-    ----------
-    frame : numpy.ndarray
-        Current webcam frame.
-
-    person_count : int
-        Number of detected persons.
+    Display total detected persons.
     """
 
-    text = f"Person Count : {person_count}"
-
-    # Display the person count at the top-left corner.
     cv2.putText(
         frame,
-        text,
+        f"Person Count : {person_count}",
         (20, 40),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.9,
         (0, 255, 255),
+        2
+    )
+
+
+def draw_mobile_count(frame, mobile_count):
+    """
+    Display total detected mobile phones.
+    """
+
+    cv2.putText(
+        frame,
+        f"Mobile Count : {mobile_count}",
+        (20, 80),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.9,
+        (255, 0, 0),
         2
     )
