@@ -22,7 +22,10 @@ Responsibilities
 import cv2
 
 from utils.camera import initialize_camera, release_camera
-from utils.constants import WINDOW_NAME
+from utils.constants import (
+    WINDOW_NAME,
+    MOBILE_FRAME_THRESHOLD,
+)
 from utils.detector import ObjectDetector
 from utils.drawing import (
     draw_detection,
@@ -30,6 +33,7 @@ from utils.drawing import (
     draw_mobile_count,
 )
 from utils.mobile_detector import get_mobile_detections
+from utils.screenshot import ScreenshotManager
 
 
 def main():
@@ -39,6 +43,11 @@ def main():
 
     camera = None
     detector = None
+    screenshot_manager = None
+
+    # Frame-based event tracking
+    mobile_frame_count = 0
+    mobile_event_captured = False
 
     print("=" * 55)
     print("        Smart Safety Monitor")
@@ -48,11 +57,15 @@ def main():
     try:
         # Initialize webcam
         camera = initialize_camera()
-        print("✓ Webcam initialized successfully.")
+        print("Webcam initialized successfully.")
 
         # Load YOLO model
         detector = ObjectDetector()
-        print("✓ YOLO model initialized successfully.\n")
+        print("YOLO model initialized successfully.\n")
+
+        # Initialize screenshot manager
+        screenshot_manager = ScreenshotManager()
+        print("Screenshot manager initialized successfully.\n")
 
         print("Press 'Q' to exit.\n")
 
@@ -123,6 +136,36 @@ def main():
             # ----------------------------------------
             draw_person_count(frame, person_count)
             draw_mobile_count(frame, mobile_count)
+
+
+            # ----------------------------------------
+            # Screenshot Capture Logic
+            # ----------------------------------------
+
+            if mobile_count > 0:
+
+                mobile_frame_count += 1
+
+                # Capture only once for the current mobile event.
+                if (
+                    mobile_frame_count >= MOBILE_FRAME_THRESHOLD
+                    and not mobile_event_captured
+                ):
+
+                    screenshot_manager.save_screenshot(
+                        frame,
+                        event_name="mobile"
+                    )
+
+                    print("Mobile event confirmed. Screenshot captured.\n")
+
+                    # Mark the current event as captured.
+                    mobile_event_captured = True
+
+            else:
+                # Mobile disappeared -> reset for the next event.
+                mobile_frame_count = 0
+                mobile_event_captured = False
 
             # Display frame
             cv2.imshow(WINDOW_NAME, frame)
