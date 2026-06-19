@@ -12,13 +12,9 @@ Responsibilities
 ----------------
 1. Initialize the webcam.
 2. Initialize the YOLO detector.
-3. Display live webcam frames.
-4. Exit safely when 'Q' is pressed.
-
-Note:
------
-In this milestone, the YOLO model is only loaded.
-Object detection will be added in the next milestone.
+3. Detect people in real-time.
+4. Draw detection results.
+5. Exit safely when 'Q' is pressed.
 =========================================================
 """
 
@@ -27,6 +23,7 @@ import cv2
 from utils.camera import initialize_camera, release_camera
 from utils.constants import WINDOW_NAME
 from utils.detector import ObjectDetector
+from utils.drawing import draw_detection
 
 
 def main():
@@ -43,37 +40,52 @@ def main():
     print("Initializing application...\n")
 
     try:
-        # -----------------------------------------
-        # Step 1 : Initialize Webcam
-        # -----------------------------------------
+        # Initialize webcam
         camera = initialize_camera()
-        print("Webcam initialized successfully.")
+        print("✓ Webcam initialized successfully.")
 
-        # -----------------------------------------
-        # Step 2 : Load YOLO Model
-        # -----------------------------------------
+        # Load YOLO model
         detector = ObjectDetector()
-        print("YOLO model initialized successfully.\n")
+        print("✓ YOLO model initialized successfully.\n")
 
         print("Press 'Q' to exit.\n")
 
         while True:
 
-            # Read one frame from webcam
+            # Read current frame
             success, frame = camera.read()
 
             if not success:
                 print("Error: Unable to capture frame.")
                 break
 
-            # -------------------------------------------------
-            # Detection will be added in the next milestone.
-            #
-            # results = detector.detect(frame)
-            # -------------------------------------------------
+            # Run YOLO detection
+            detections = detector.detect(frame)
 
+            # Draw only PERSON detections
+            for detection in detections:
+
+                if detection["class_name"] != "person":
+                    continue
+
+                x1, y1, x2, y2 = detection["bbox"]
+                confidence = detection["confidence"]
+
+                label = f"Person {confidence:.2f}"
+
+                draw_detection(
+                    frame,
+                    x1,
+                    y1,
+                    x2,
+                    y2,
+                    label
+                )
+
+            # Display frame
             cv2.imshow(WINDOW_NAME, frame)
 
+            # Exit on Q
             key = cv2.waitKey(1) & 0xFF
 
             if key in (ord("q"), ord("Q")):
