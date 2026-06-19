@@ -23,7 +23,7 @@ import cv2
 from utils.camera import initialize_camera, release_camera
 from utils.constants import WINDOW_NAME
 from utils.detector import ObjectDetector
-from utils.drawing import draw_detection
+from utils.drawing import draw_detection, draw_person_count
 
 
 def main():
@@ -54,6 +54,8 @@ def main():
 
             # Read current frame
             success, frame = camera.read()
+            # Store total detected persons in the current frame.
+            person_count = 0
 
             if not success:
                 print("Error: Unable to capture frame.")
@@ -68,6 +70,9 @@ def main():
                 if detection["class_name"] != "person":
                     continue
 
+                # Increment the detected person count.
+                person_count += 1
+
                 x1, y1, x2, y2 = detection["bbox"]
                 confidence = detection["confidence"]
 
@@ -81,6 +86,9 @@ def main():
                     y2,
                     label
                 )
+
+                # Display total detected persons.
+                draw_person_count(frame, person_count)
 
             # Display frame
             cv2.imshow(WINDOW_NAME, frame)

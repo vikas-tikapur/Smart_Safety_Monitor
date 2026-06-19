@@ -14,6 +14,7 @@ Responsibilities
 1. Draw bounding boxes.
 2. Display class names.
 3. Display confidence scores.
+4. Display total detected person count.
 
 Future Responsibilities
 -----------------------
@@ -51,7 +52,7 @@ def draw_detection(frame, x1, y1, x2, y2, label):
         Text displayed above the bounding box.
     """
 
-    # Draw rectangle around detected object.
+    # Draw a green rectangle around the detected object.
     cv2.rectangle(
         frame,
         (x1, y1),
@@ -60,7 +61,7 @@ def draw_detection(frame, x1, y1, x2, y2, label):
         2
     )
 
-    # Draw object label.
+    # Display the object label with confidence score.
     cv2.putText(
         frame,
         label,
@@ -68,5 +69,32 @@ def draw_detection(frame, x1, y1, x2, y2, label):
         cv2.FONT_HERSHEY_SIMPLEX,
         0.6,
         (0, 255, 0),
+        2
+    )
+
+
+def draw_person_count(frame, person_count):
+    """
+    Display the total number of detected persons.
+
+    Parameters
+    ----------
+    frame : numpy.ndarray
+        Current webcam frame.
+
+    person_count : int
+        Number of detected persons.
+    """
+
+    text = f"Person Count : {person_count}"
+
+    # Display the person count at the top-left corner.
+    cv2.putText(
+        frame,
+        text,
+        (20, 40),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.9,
+        (0, 255, 255),
         2
     )
