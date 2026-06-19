@@ -4,16 +4,21 @@ Project   : Smart Safety Monitor
 File Name : main.py
 Author    : Vikas Mishra
 
-Purpose:
----------
-This is the main entry point of the application.
+Purpose
+-------
+Main entry point of the application.
 
-Responsibilities:
+Responsibilities
+----------------
 1. Initialize the webcam.
-2. Read live video frames.
-3. Display the webcam feed.
-4. Handle user input.
-5. Release resources safely before exiting.
+2. Initialize the YOLO detector.
+3. Display live webcam frames.
+4. Exit safely when 'Q' is pressed.
+
+Note:
+-----
+In this milestone, the YOLO model is only loaded.
+Object detection will be added in the next milestone.
 =========================================================
 """
 
@@ -21,6 +26,7 @@ import cv2
 
 from utils.camera import initialize_camera, release_camera
 from utils.constants import WINDOW_NAME
+from utils.detector import ObjectDetector
 
 
 def main():
@@ -28,9 +34,8 @@ def main():
     Start the Smart Safety Monitor application.
     """
 
-    # Initialize camera variable.
-    # This prevents errors in the finally block if camera initialization fails.
     camera = None
+    detector = None
 
     print("=" * 55)
     print("        Smart Safety Monitor")
@@ -38,28 +43,39 @@ def main():
     print("Initializing application...\n")
 
     try:
-        # Initialize the webcam.
+        # -----------------------------------------
+        # Step 1 : Initialize Webcam
+        # -----------------------------------------
         camera = initialize_camera()
-
         print("Webcam initialized successfully.")
-        print("Press 'Q' to exit the application.\n")
+
+        # -----------------------------------------
+        # Step 2 : Load YOLO Model
+        # -----------------------------------------
+        detector = ObjectDetector()
+        print("YOLO model initialized successfully.\n")
+
+        print("Press 'Q' to exit.\n")
 
         while True:
-            # Read one frame from the webcam.
+
+            # Read one frame from webcam
             success, frame = camera.read()
 
-            # Stop execution if the frame cannot be captured.
             if not success:
-                print("Error: Unable to read frame from webcam.")
+                print("Error: Unable to capture frame.")
                 break
 
-            # Display the current frame.
+            # -------------------------------------------------
+            # Detection will be added in the next milestone.
+            #
+            # results = detector.detect(frame)
+            # -------------------------------------------------
+
             cv2.imshow(WINDOW_NAME, frame)
 
-            # Wait for keyboard input.
             key = cv2.waitKey(1) & 0xFF
 
-            # Exit when 'Q' or 'q' is pressed.
             if key in (ord("q"), ord("Q")):
                 print("\nExit command received.")
                 break
@@ -68,7 +84,6 @@ def main():
         print(f"\nApplication Error: {error}")
 
     finally:
-        # Always release the camera.
         release_camera(camera)
 
         print("Webcam released successfully.")

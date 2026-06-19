@@ -31,3 +31,19 @@ CAMERA_INDEX = 0
 
 # Window title shown when the camera starts.
 WINDOW_NAME = "Smart Safety Monitor"
+
+# =========================================================
+# YOLO Model Settings
+# =========================================================
+
+# Name of the default YOLOv8 model.
+YOLO_MODEL_NAME = "yolov8n.pt"
+
+
+# =========================================================
+# Detection Settings
+# =========================================================
+
+# Default confidence threshold.
+# Objects below this confidence will be ignored.
+YOLO_CONFIDENCE = 0.50
