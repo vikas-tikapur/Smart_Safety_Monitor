@@ -108,6 +108,14 @@ python main.py
 
 ---
 
+## AI Models
+
+| Model | Purpose | Status |
+|--------|---------|--------|
+| YOLOv8 COCO | Person & Mobile Detection | ✅ |
+| PPE Model | Helmet & Safety Vest Detection | ⏳ Planned |
+| Weapon Model | Gun & Knife Detection | ⏳ Planned |
+
 # Current Progress
 
 | Feature                | Status |
@@ -119,12 +127,12 @@ python main.py
 | Person Counter         | ✅      |
 | Mobile Phone Detection | ✅      |
 | Mobile Phone Counter   | ✅      |
-| Screenshot Capture     | 🚧     |
-| CSV Logging            | 🚧     |
+| Screenshot Capture     | ✅      |
+| CSV Logging            | ✅      |
 | Helmet Detection       | 🚧     |
 | Safety Vest Detection  | 🚧     |
 | Weapon Detection       | 🚧     |
-| Dashboard              | 🚧     |
+| Dashboard              | ✅      |
 
 ---
 
