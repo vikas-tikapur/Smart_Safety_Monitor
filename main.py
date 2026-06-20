@@ -34,6 +34,7 @@ from utils.drawing import (
 )
 from utils.mobile_detector import get_mobile_detections
 from utils.screenshot import ScreenshotManager
+from utils.logger import EventLogger
 
 
 def main():
@@ -44,6 +45,7 @@ def main():
     camera = None
     detector = None
     screenshot_manager = None
+    logger = None
 
     # Frame-based event tracking
     mobile_frame_count = 0
@@ -66,6 +68,10 @@ def main():
         # Initialize screenshot manager
         screenshot_manager = ScreenshotManager()
         print("Screenshot manager initialized successfully.\n")
+
+        # Initialize event logger
+        logger = EventLogger()
+        print("Event logger initialized successfully.\n")
 
         print("Press 'Q' to exit.\n")
 
@@ -152,14 +158,23 @@ def main():
                     and not mobile_event_captured
                 ):
 
-                    screenshot_manager.save_screenshot(
+                    # Save screenshot and get its filename.
+                    screenshot_name = screenshot_manager.save_screenshot(
                         frame,
                         event_name="mobile"
                     )
 
+                    # Write event to CSV.
+                    logger.log_event(
+                        event_name="Mobile Detected",
+                        person_count=person_count,
+                        mobile_count=mobile_count,
+                        screenshot_name=screenshot_name
+                    )
+
                     print("Mobile event confirmed. Screenshot captured.\n")
 
-                    # Mark the current event as captured.
+                    # Prevent duplicate screenshots for the same event.
                     mobile_event_captured = True
 
             else:

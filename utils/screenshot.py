@@ -86,4 +86,5 @@ class ScreenshotManager:
 
         print(f"Screenshot saved : {filename}")
 
-        return str(image_path)
+        # Return only the filename.
+        return filename
