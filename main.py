@@ -29,9 +29,6 @@ from utils.constants import (
 from utils.detector import ObjectDetector
 from utils.drawing import (
     draw_detection,
-    draw_person_count,
-    draw_mobile_count,
-    draw_fps,
     draw_status_panel,
 )
 from utils.mobile_detector import get_mobile_detections
@@ -142,12 +139,6 @@ def main():
                     color=(255, 0, 0)
                 )
 
-            # ----------------------------------------
-            # Draw Counters
-            # ----------------------------------------
-            # draw_person_count(frame, person_count)
-            # draw_mobile_count(frame, mobile_count)
-
 
             # ----------------------------------------
             # Screenshot Capture Logic
@@ -193,6 +184,7 @@ def main():
             # Display FPS on the frame.
             # draw_fps(frame, fps)
 
+            # Get current system date and time.
             current_time = get_current_datetime()
 
             # Draw status panel.

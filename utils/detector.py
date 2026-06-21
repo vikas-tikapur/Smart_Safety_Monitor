@@ -11,7 +11,7 @@ This module handles all YOLO-related operations.
 Responsibilities
 ----------------
 1. Load the YOLO model.
-2. Run object detection.
+2. Run YOLO inference on the input frame.
 3. Return clean detection data.
 
 Future Responsibilities
@@ -34,6 +34,7 @@ class ObjectDetector:
     Handles YOLO model loading and object detection.
     """
 
+    # Load the YOLO model only once during application startup.
     def __init__(self):
         """Load the YOLO model once."""
 

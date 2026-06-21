@@ -75,62 +75,6 @@ def draw_detection(frame, x1, y1, x2, y2, label, color=(0, 255, 0)):
         2
     )
 
-
-def draw_person_count(frame, person_count):
-    """
-    Display total detected persons.
-    """
-
-    cv2.putText(
-        frame,
-        f"Person Count : {person_count}",
-        (20, 40),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.9,
-        (0, 255, 255),
-        2
-    )
-
-
-def draw_mobile_count(frame, mobile_count):
-    """
-    Display total detected mobile phones.
-    """
-
-    cv2.putText(
-        frame,
-        f"Mobile Count : {mobile_count}",
-        (20, 80),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.9,
-        (255, 0, 0),
-        2
-    )
-
-def draw_fps(frame, fps):
-    """
-    Display the current Frames Per Second (FPS).
-
-    Parameters
-    ----------
-    frame : numpy.ndarray
-        Current webcam frame.
-
-    fps : int
-        Current FPS value.
-    """
-
-    cv2.putText(
-        frame,
-        f"FPS : {fps}",
-        (10, 120),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.7,
-        (0, 255, 255),
-        2
-    )
-
-
 def draw_status_panel(
     frame,
     person_count,
