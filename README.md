@@ -1,8 +1,8 @@
 # 🛡️ Smart Safety Monitor
 
-A real-time AI-powered safety monitoring system built using **Python**, **OpenCV**, and **YOLOv8**.
+A real-time **AI-powered Workplace Safety Monitoring System** built using **Python**, **OpenCV**, and **YOLOv8**.
 
-This project is designed to monitor workplace safety by detecting people, mobile phones, helmets, safety vests, and other safety-related objects in real time.
+The application monitors live webcam footage and detects workplace safety violations such as **persons**, **mobile phones**, and (upcoming) **helmets**, **safety vests**, and **weapons**. It also captures evidence, logs events, and provides a professional monitoring interface.
 
 ---
 
@@ -16,6 +16,11 @@ This project is designed to monitor workplace safety by detecting people, mobile
 * Live Person Counter
 * Mobile Phone Detection
 * Live Mobile Phone Counter
+* Smart Screenshot Capture
+* CSV Event Logging
+* Live FPS Counter
+* Professional Monitoring Status Panel
+* Live Date & Time
 * Color-Coded Bounding Boxes
 * Modular Project Architecture
 * Well-Documented Source Code
@@ -24,14 +29,14 @@ This project is designed to monitor workplace safety by detecting people, mobile
 
 ## Upcoming Features
 
-* Automatic Screenshot Capture
-* CSV Event Logging
 * Helmet Detection
 * Safety Vest Detection
 * Weapon Detection
 * Dashboard Analytics
-* Detection Statistics
+* Event Statistics
 * Safety Alerts
+* Custom YOLOv8 PPE Model
+* Performance Optimization
 
 ---
 
@@ -43,15 +48,24 @@ Smart_Safety_Monitor/
 ├── dashboard/
 ├── logs/
 ├── models/
+│   ├── coco/
+│   ├── ppe/
+│   └── weapon/
+│
 ├── output/
 ├── screenshots/
 │
 ├── utils/
 │   ├── camera.py
 │   ├── constants.py
+│   ├── date_time.py
 │   ├── detector.py
 │   ├── drawing.py
-│   └── mobile_detector.py
+│   ├── fps.py
+│   ├── logger.py
+│   ├── mobile_detector.py
+│   ├── ppe_detector.py
+│   └── screenshot.py
 │
 ├── main.py
 ├── requirements.txt
@@ -71,36 +85,45 @@ Smart_Safety_Monitor/
 
 ---
 
-# How to Run
+# ▶️ How to Run
 
-### 1. Clone the repository
+## 1. Clone the repository
 
 ```bash
 git clone https://github.com/vikas-tikapur/Smart_Safety_Monitor.git
+
 cd Smart_Safety_Monitor
 ```
 
-### 2. Create a virtual environment
+---
+
+## 2. Create a virtual environment
 
 ```bash
 py -3.10 -m venv venv
 ```
 
-### 3. Activate the virtual environment
+---
 
-**Windows PowerShell**
+## 3. Activate virtual environment
+
+### Windows PowerShell
 
 ```powershell
 .\venv\Scripts\Activate.ps1
 ```
 
-### 4. Install dependencies
+---
+
+## 4. Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 5. Run the application
+---
+
+## 5. Run the application
 
 ```bash
 python main.py
@@ -108,31 +131,37 @@ python main.py
 
 ---
 
-## AI Models
+# AI Models
 
-| Model | Purpose | Status |
-|--------|---------|--------|
-| YOLOv8 COCO | Person & Mobile Detection | ✅ |
-| PPE Model | Helmet & Safety Vest Detection | ⏳ Planned |
-| Weapon Model | Gun & Knife Detection | ⏳ Planned |
+| Model        | Purpose                        | Status |
+| ------------ | ------------------------------ | :----: |
+| YOLOv8 COCO  | Person & Mobile Detection      |    ✅   |
+| PPE Model    | Helmet & Safety Vest Detection |   🚧   |
+| Weapon Model | Gun & Knife Detection          |   🚧   |
+
+---
 
 # Current Progress
 
-| Feature                | Status |
-| ---------------------- | ------ |
-| Project Setup          | ✅      |
-| Camera Module          | ✅      |
-| YOLO Model Loader      | ✅      |
-| Person Detection       | ✅      |
-| Person Counter         | ✅      |
-| Mobile Phone Detection | ✅      |
-| Mobile Phone Counter   | ✅      |
-| Screenshot Capture     | ✅      |
-| CSV Logging            | ✅      |
-| Helmet Detection       | 🚧     |
-| Safety Vest Detection  | 🚧     |
-| Weapon Detection       | 🚧     |
-| Dashboard              | ✅      |
+| Feature                   | Status |
+| ------------------------- | :----: |
+| Project Setup             |    ✅   |
+| Modular Project Structure |    ✅   |
+| Camera Module             |    ✅   |
+| YOLOv8 Model Loader       |    ✅   |
+| Person Detection          |    ✅   |
+| Person Counter            |    ✅   |
+| Mobile Phone Detection    |    ✅   |
+| Mobile Phone Counter      |    ✅   |
+| Smart Screenshot Capture  |    ✅   |
+| CSV Event Logging         |    ✅   |
+| Live FPS Counter          |    ✅   |
+| Professional Status Panel |    ✅   |
+| Live Date & Time          |    ✅   |
+| Helmet Detection          |   🚧   |
+| Safety Vest Detection     |   🚧   |
+| Weapon Detection          |   🚧   |
+| Dashboard Analytics       |   🚧   |
 
 ---
 
@@ -140,9 +169,34 @@ python main.py
 
 * Improve workplace safety using AI.
 * Detect safety violations in real time.
-* Generate event logs for monitoring.
-* Capture screenshots of safety violations.
-* Build a modular and maintainable computer vision project.
+* Capture screenshots as evidence.
+* Generate CSV event logs.
+* Build a modular and maintainable computer vision application.
+* Train and integrate custom YOLOv8 models.
+* Develop a professional AI monitoring dashboard.
+
+---
+
+# Current Version
+
+## **v0.4.0 — Professional Monitoring UI**
+
+### Completed
+
+* Person Detection
+* Mobile Phone Detection
+* Smart Screenshot Capture
+* CSV Event Logging
+* Professional Monitoring Panel
+* Live FPS Counter
+* Live Date & Time
+
+### In Progress
+
+* Helmet Detection
+* Safety Vest Detection
+* Weapon Detection
+* Dashboard Analytics
 
 ---
 
@@ -151,4 +205,5 @@ python main.py
 **Vikas Mishra**
 
 GitHub:
+
 https://github.com/vikas-tikapur

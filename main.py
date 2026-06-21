@@ -31,10 +31,14 @@ from utils.drawing import (
     draw_detection,
     draw_person_count,
     draw_mobile_count,
+    draw_fps,
+    draw_status_panel,
 )
 from utils.mobile_detector import get_mobile_detections
 from utils.screenshot import ScreenshotManager
+from utils.date_time import get_current_datetime
 from utils.logger import EventLogger
+from utils.fps import FPSCounter
 
 
 def main():
@@ -46,6 +50,7 @@ def main():
     detector = None
     screenshot_manager = None
     logger = None
+    fps_counter = FPSCounter()
 
     # Frame-based event tracking
     mobile_frame_count = 0
@@ -140,8 +145,8 @@ def main():
             # ----------------------------------------
             # Draw Counters
             # ----------------------------------------
-            draw_person_count(frame, person_count)
-            draw_mobile_count(frame, mobile_count)
+            # draw_person_count(frame, person_count)
+            # draw_mobile_count(frame, mobile_count)
 
 
             # ----------------------------------------
@@ -181,6 +186,23 @@ def main():
                 # Mobile disappeared -> reset for the next event.
                 mobile_frame_count = 0
                 mobile_event_captured = False
+
+            # Calculate current FPS.
+            fps = fps_counter.update()
+
+            # Display FPS on the frame.
+            # draw_fps(frame, fps)
+
+            current_time = get_current_datetime()
+
+            # Draw status panel.
+            draw_status_panel(
+                frame,
+                person_count,
+                mobile_count,
+                fps,
+                current_time
+            )
 
             # Display frame
             cv2.imshow(WINDOW_NAME, frame)

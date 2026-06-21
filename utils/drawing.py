@@ -106,3 +106,148 @@ def draw_mobile_count(frame, mobile_count):
         (255, 0, 0),
         2
     )
+
+def draw_fps(frame, fps):
+    """
+    Display the current Frames Per Second (FPS).
+
+    Parameters
+    ----------
+    frame : numpy.ndarray
+        Current webcam frame.
+
+    fps : int
+        Current FPS value.
+    """
+
+    cv2.putText(
+        frame,
+        f"FPS : {fps}",
+        (10, 120),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.7,
+        (0, 255, 255),
+        2
+    )
+
+
+def draw_status_panel(
+    frame,
+    person_count,
+    mobile_count,
+    fps,
+    current_time
+):
+    """
+    Draw a professional status panel on the frame.
+
+    Parameters
+    ----------
+    frame : numpy.ndarray
+        Current video frame.
+
+    person_count : int
+        Total detected persons.
+
+    mobile_count : int
+        Total detected mobile phones.
+
+    fps : int
+        Current frames per second.
+    """
+
+    # Panel position
+    x = 10
+    y = 10
+    width = 310
+    height = 180
+
+    # Black filled rectangle
+    cv2.rectangle(
+        frame,
+        (x, y),
+        (x + width, y + height),
+        (40, 40, 40),
+        -1
+    )
+
+    # White border
+    cv2.rectangle(
+        frame,
+        (x, y),
+        (x + width, y + height),
+        (255, 255, 255),
+        2
+    )
+
+    # Title
+    cv2.putText(
+        frame,
+        "SMART SAFETY MONITOR",
+        (20, 35),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.60,
+        (0, 255, 255),
+        2
+    )
+
+    cv2.line(
+        frame,
+        (20, 45),
+        (300, 45),
+        (180, 180, 180),
+        1
+    )
+
+    # Person count
+    cv2.putText(
+        frame,
+        f"Persons : {person_count}",
+        (20, 60),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.55,
+        (255, 255, 255),
+        2
+    )
+
+    # Mobile count
+    cv2.putText(
+        frame,
+        f"Mobile  : {mobile_count}",
+        (20, 85),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.55,
+        (255, 255, 255),
+        2
+    )
+
+    # FPS
+    cv2.putText(
+        frame,
+        f"FPS     : {fps}",
+        (20, 110),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.55,
+        (255, 255, 255),
+        2
+    )
+
+    cv2.putText(
+        frame,
+        "Status : Monitoring",
+        (20, 135),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.55,
+        (0, 255, 0),
+        2
+    )
+
+    cv2.putText(
+        frame,
+        f"Time : {current_time}",
+        (20, 160),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.50,
+        (255, 255, 255),
+        1
+    )
