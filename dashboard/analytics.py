@@ -1,6 +1,6 @@
 """
 =========================================================
-File Name : dashboard_data.py
+File Name : analytics.py
 Project   : Smart Safety Monitor
 Author    : Vikas Mishra
 
@@ -21,11 +21,21 @@ from pathlib import Path
 import pandas as pd
 
 
-class DashboardData:
+class DashboardAnalytics:
     """
     Reads detection logs and prepares statistics
     for the dashboard.
     """
+
+    # Default statistics returned when no log data is available.
+    empty_stats = {
+        "total_events": 0,
+        "today_events": 0,
+        "mobile_events": 0,
+        "total_persons": 0,
+        "latest_event": "No Data",
+        "last_screenshot": "No Screenshot"
+    }
 
     def __init__(self):
 
@@ -47,27 +57,28 @@ class DashboardData:
         # No CSV file available
         if not self.csv_file.exists():
 
-            return {
-                "total_events": 0,
-                "mobile_events": 0,
-                "total_persons": 0,
-                "latest_event": "No Data"
-            }
+            return self.empty_stats
 
         df = pd.read_csv(self.csv_file)
 
         # Empty CSV
         if df.empty:
 
-            return {
-                "total_events": 0,
-                "mobile_events": 0,
-                "total_persons": 0,
-                "latest_event": "No Data"
-            }
+            return self.empty_stats
+
+        # Convert timestamp to datetime
+        df["Timestamp"] = pd.to_datetime(df["Timestamp"])
+
+        # Get today's date
+        today = pd.Timestamp.now().date()
+
+        # Count today's events
+        today_events = len(df[df["Timestamp"].dt.date == today])
 
         stats = {
             "total_events": len(df),
+
+            "today_events": today_events,
 
             "mobile_events": len(
                 df[df["Event"] == "Mobile Detected"]
@@ -75,7 +86,9 @@ class DashboardData:
 
             "total_persons": int(df["Person Count"].sum()),
 
-            "latest_event": df.iloc[-1]["Event"]
+            "latest_event": df.iloc[-1]["Event"],
+
+            "last_screenshot": df.iloc[-1]["Screenshot"]
         }
 
         return stats
