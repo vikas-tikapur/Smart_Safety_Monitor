@@ -31,8 +31,8 @@ class Dashboard:
         # Create analytics object
         self.analytics = DashboardAnalytics()
 
-        # Read statistics
-        self.stats = self.analytics.get_statistics()
+        # Load dashboard statistics
+        self.load_statistics()
 
         # Create main window
         self.root = tk.Tk()
@@ -57,7 +57,51 @@ class Dashboard:
         self.button_frame = tk.Frame(self.root)
         self.button_frame.pack(fill="x", pady=10)
 
+        # Store card value labels for future updates.
+        self.card_labels = {}
+
         self.create_widgets()
+
+    def load_statistics(self):
+        """
+        Load the latest dashboard statistics.
+        """
+
+        self.stats = self.analytics.get_statistics()
+
+    def refresh_dashboard(self):
+        """
+        Refresh dashboard statistics and update the UI.
+        """
+
+        # Reload latest statistics
+        self.load_statistics()
+
+        # Update statistic cards
+        self.card_labels["Total Events"].config(
+            text=self.stats["total_events"]
+        )
+
+        self.card_labels["Today's Events"].config(
+            text=self.stats["today_events"]
+        )
+
+        self.card_labels["Mobile Events"].config(
+            text=self.stats["mobile_events"]
+        )
+
+        self.card_labels["Total Persons"].config(
+            text=self.stats["total_persons"]
+        )
+
+        # Update information panel
+        self.event_label.config(
+            text=f"Latest Event : {self.stats['latest_event']}"
+        )
+
+        self.screenshot_label.config(
+            text=f"Last Screenshot : {self.stats['last_screenshot']}"
+        )
 
     def create_widgets(self):
         """
@@ -113,6 +157,42 @@ class Dashboard:
 
         self.stats_frame.rowconfigure(0, weight=1)
         self.stats_frame.rowconfigure(1, weight=1)
+
+        # -----------------------------
+        # Information Panel
+        # -----------------------------
+
+        self.event_label = tk.Label(
+            self.info_frame,
+            text=f"Latest Event : {self.stats['latest_event']}",
+            anchor="w",
+            font=("Arial", 11)
+        )
+
+        self.event_label.pack(fill="x", pady=2)
+
+        self.screenshot_label = tk.Label(
+            self.info_frame,
+            text=f"Last Screenshot : {self.stats['last_screenshot']}",
+            anchor="w",
+            font=("Arial", 11)
+        )
+
+        self.screenshot_label.pack(fill="x", pady=2)
+
+        # -----------------------------
+        # Refresh Button
+        # -----------------------------
+
+        refresh_button = tk.Button(
+            self.button_frame,
+            text="Refresh Dashboard",
+            command=self.refresh_dashboard,
+            width=20,
+            font=("Arial", 11, "bold")
+        )
+
+        refresh_button.pack(pady=10)
 
     def create_stat_card(
         self,
@@ -174,6 +254,8 @@ class Dashboard:
         )
 
         value_label.pack(pady=(8, 0))
+
+        self.card_labels[title] = value_label
 
     def run(self):
         """
