@@ -61,3 +61,14 @@ MOBILE_CONFIDENCE = 0.60
 # that a mobile phone is actually detected.
 # (Will be used in a later milestone.)
 MOBILE_FRAME_THRESHOLD = 5
+
+# =========================================================
+# PPE Detection Settings
+# =========================================================
+
+# Path to the PPE model.
+PPE_MODEL_NAME = "models/ppe/best.pt"
+
+# Confidence threshold for PPE detection.
+# Objects below this confidence will be ignored.
+PPE_CONFIDENCE = 0.35

@@ -27,6 +27,12 @@ from utils.constants import (
     MOBILE_FRAME_THRESHOLD,
 )
 from utils.detector import ObjectDetector
+from utils.ppe_detector import (
+    PPEDetector,
+    get_helmet_detections,
+    get_nohelmet_detections,
+    get_vest_detections,
+)
 from utils.drawing import (
     draw_detection,
     draw_status_panel,
@@ -45,6 +51,7 @@ def main():
 
     camera = None
     detector = None
+    ppe_detector = None
     screenshot_manager = None
     logger = None
     fps_counter = FPSCounter()
@@ -67,6 +74,10 @@ def main():
         detector = ObjectDetector()
         print("YOLO model initialized successfully.\n")
 
+        # Load PPE model
+        ppe_detector = PPEDetector()
+        print("PPE model initialized successfully.\n")
+
         # Initialize screenshot manager
         screenshot_manager = ScreenshotManager()
         print("Screenshot manager initialized successfully.\n")
@@ -88,6 +99,21 @@ def main():
 
             # Run YOLO detection
             detections = detector.detect(frame)
+
+            # Run PPE detection
+            ppe_detections = ppe_detector.detect(frame)
+            helmet_detections = get_helmet_detections(ppe_detections)
+            helmet_count = len(helmet_detections)
+            print(f"Helmet : {helmet_count}")
+
+            # ----------------------------------------
+            # Debug: Print all PPE detections
+            # ----------------------------------------
+            for detection in ppe_detections:
+                print(
+                    detection["class_name"],
+                    round(detection["confidence"], 2)
+                )
 
             # Get only mobile detections
             mobile_detections = get_mobile_detections(detections)
@@ -137,6 +163,26 @@ def main():
                     y2,
                     label,
                     color=(255, 0, 0)
+                )
+
+
+            # ----------------------------------------
+            # Draw Helmet Detections
+            # ----------------------------------------
+            for detection in helmet_detections:
+
+                x1, y1, x2, y2 = detection["bbox"]
+
+                label = f"Helmet {detection['confidence']:.2f}"
+
+                draw_detection(
+                    frame,
+                    x1,
+                    y1,
+                    x2,
+                    y2,
+                    label,
+                    color=(0, 255, 255)   # Yellow
                 )
 
 
