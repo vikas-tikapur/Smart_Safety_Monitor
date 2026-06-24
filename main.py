@@ -12,8 +12,8 @@ Responsibilities
 ----------------
 1. Initialize the webcam.
 2. Initialize the YOLO detector.
-3. Detect persons and mobile phones.
-4. Draw detection results.
+3. Detect persons, mobile phones, and PPE.
+4. Draw object detection results.
 5. Display live counters.
 6. Exit safely when 'Q' is pressed.
 =========================================================
@@ -35,6 +35,7 @@ from utils.ppe_detector import (
 )
 from utils.drawing import (
     draw_detection,
+    draw_ppe_detection,
     draw_status_panel,
 )
 from utils.mobile_detector import get_mobile_detections
@@ -103,17 +104,18 @@ def main():
             # Run PPE detection
             ppe_detections = ppe_detector.detect(frame)
             helmet_detections = get_helmet_detections(ppe_detections)
-            helmet_count = len(helmet_detections)
-            print(f"Helmet : {helmet_count}")
 
-            # ----------------------------------------
-            # Debug: Print all PPE detections
-            # ----------------------------------------
-            for detection in ppe_detections:
-                print(
-                    detection["class_name"],
-                    round(detection["confidence"], 2)
-                )
+            nohelmet_detections = get_nohelmet_detections(
+                ppe_detections
+            )
+
+            vest_detections = get_vest_detections(
+                ppe_detections
+            )
+
+            helmet_count = len(helmet_detections)
+            nohelmet_count = len(nohelmet_detections)
+            vest_count = len(vest_detections)
 
             # Get only mobile detections
             mobile_detections = get_mobile_detections(detections)
@@ -171,24 +173,33 @@ def main():
             # ----------------------------------------
             for detection in helmet_detections:
 
-                x1, y1, x2, y2 = detection["bbox"]
-
-                label = f"Helmet {detection['confidence']:.2f}"
-
-                draw_detection(
+                draw_ppe_detection(
                     frame,
-                    x1,
-                    y1,
-                    x2,
-                    y2,
-                    label,
-                    color=(0, 255, 255)   # Yellow
+                    detection,
+                    color=(255, 0, 0)
                 )
 
+            # ----------------------------------------
+            # Draw No Helmet Detections
+            # ----------------------------------------
+            for detection in nohelmet_detections:
+
+                draw_ppe_detection(
+                    frame,
+                    detection,
+                    color=(0, 0, 255)
+                )
 
             # ----------------------------------------
-            # Screenshot Capture Logic
+            # Draw Vest Detections
             # ----------------------------------------
+            for detection in vest_detections:
+
+                draw_ppe_detection(
+                    frame,
+                    detection,
+                    color=(255, 0, 255)
+                )
 
             if mobile_count > 0:
 

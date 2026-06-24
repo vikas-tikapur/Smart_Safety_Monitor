@@ -75,6 +75,51 @@ def draw_detection(frame, x1, y1, x2, y2, label, color=(0, 255, 0)):
         2
     )
 
+
+def draw_ppe_detection(frame, detection, color):
+    """
+    Draw a PPE detection bounding box and label.
+
+    Parameters
+    ----------
+    frame : numpy.ndarray
+        Current webcam frame.
+
+    detection : dict
+        PPE detection dictionary.
+
+    color : tuple
+        Bounding box color in BGR format.
+    """
+
+    x1, y1, x2, y2 = detection["bbox"]
+
+    label = (
+        f"{detection['class_name']} "
+        f"{detection['confidence']:.2f}"
+    )
+
+    # Draw bounding box
+    cv2.rectangle(
+        frame,
+        (x1, y1),
+        (x2, y2),
+        color,
+        2
+    )
+
+    # Draw label
+    cv2.putText(
+        frame,
+        label,
+        (x1, y1 - 10),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.6,
+        color,
+        2
+    )
+
+
 def draw_status_panel(
     frame,
     person_count,
