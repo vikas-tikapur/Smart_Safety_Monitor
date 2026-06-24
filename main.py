@@ -249,6 +249,9 @@ def main():
                 frame,
                 person_count,
                 mobile_count,
+                helmet_count,
+                nohelmet_count,
+                vest_count,
                 fps,
                 current_time
             )

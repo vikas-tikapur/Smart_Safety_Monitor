@@ -124,6 +124,9 @@ def draw_status_panel(
     frame,
     person_count,
     mobile_count,
+    helmet_count,
+    nohelmet_count,
+    vest_count,
     fps,
     current_time
 ):
@@ -141,6 +144,15 @@ def draw_status_panel(
     mobile_count : int
         Total detected mobile phones.
 
+    helmet_count : int
+        Total detected helmets.
+
+    nohelmet_count : int
+        Total detected no-helmet instances.
+
+    vest_count : int
+        Total detected vests.
+
     fps : int
         Current frames per second.
     """
@@ -149,7 +161,7 @@ def draw_status_panel(
     x = 10
     y = 10
     width = 310
-    height = 180
+    height = 250
 
     # Black filled rectangle
     cv2.rectangle(
@@ -191,8 +203,8 @@ def draw_status_panel(
     # Person count
     cv2.putText(
         frame,
-        f"Persons : {person_count}",
-        (20, 60),
+        f"Persons      : {person_count}",
+        (20, 65),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
         (255, 255, 255),
@@ -202,19 +214,60 @@ def draw_status_panel(
     # Mobile count
     cv2.putText(
         frame,
-        f"Mobile  : {mobile_count}",
-        (20, 85),
+        f"Mobile       : {mobile_count}",
+        (20, 90),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
         (255, 255, 255),
         2
+    )
+
+    # Helmet count
+    cv2.putText(
+        frame,
+        f"Helmet       : {helmet_count}",
+        (20, 115),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.55,
+        (255, 0, 0),
+        2
+    )
+
+    # No Helmet count
+    cv2.putText(
+        frame,
+        f"No Helmet    : {nohelmet_count}",
+        (20, 140),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.55,
+        (0, 0, 255),
+        2
+    )
+
+    # Vest count
+    cv2.putText(
+        frame,
+        f"Vest         : {vest_count}",
+        (20, 165),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.55,
+        (255, 0, 255),
+        2
+    )
+
+    cv2.line(
+        frame,
+        (20, 180),
+        (300, 180),
+        (180, 180, 180),
+        1
     )
 
     # FPS
     cv2.putText(
         frame,
-        f"FPS     : {fps}",
-        (20, 110),
+        f"FPS          : {fps}",
+        (20, 205),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
         (255, 255, 255),
@@ -223,8 +276,8 @@ def draw_status_panel(
 
     cv2.putText(
         frame,
-        "Status : Monitoring",
-        (20, 135),
+        "Status       : Monitoring",
+        (20, 228),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
         (0, 255, 0),
@@ -234,9 +287,9 @@ def draw_status_panel(
     cv2.putText(
         frame,
         f"Time : {current_time}",
-        (20, 160),
+        (20, 248),
         cv2.FONT_HERSHEY_SIMPLEX,
-        0.50,
+        0.48,
         (255, 255, 255),
         1
     )
