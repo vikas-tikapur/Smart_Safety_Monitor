@@ -2,9 +2,9 @@
 
 A real-time **AI-powered Workplace Safety Monitoring System** built using **Python**, **OpenCV**, **YOLOv8**, and **Tkinter Dashboard**.
 
-The application monitors live webcam footage and detects workplace safety violations such as **persons** and **mobile phones** using the YOLOv8 COCO model. It also integrates a dedicated **PPE Detection Model** for detecting **helmets**, **safety vests**, and **no-helmet violations**.
+The application monitors live webcam footage and detects workplace safety violations using multiple AI models. It currently supports **Person Detection**, **Mobile Phone Detection**, **Helmet Detection**, **No Helmet Detection**, and **Safety Vest Detection**.
 
-The system automatically captures screenshots, logs events into CSV files, and provides a professional real-time dashboard for monitoring workplace safety.
+The system automatically captures screenshots, logs detection events into CSV files, and provides a professional real-time monitoring dashboard.
 
 ---
 
@@ -18,19 +18,23 @@ The system automatically captures screenshots, logs events into CSV files, and p
 * Live Person Counter
 * Mobile Phone Detection
 * Live Mobile Phone Counter
+* PPE Detection
+* Helmet Detection
+* No Helmet Detection
+* Safety Vest Detection
+* Live PPE Counters
+* Color-Coded Bounding Boxes
 * Smart Screenshot Capture
 * CSV Event Logging
 * Live FPS Counter
 * Professional Monitoring Status Panel
 * Live Date & Time
-* Color-Coded Bounding Boxes
 * Tkinter Dashboard
 * Dashboard Analytics
 * Dashboard Refresh
 * Latest Event Viewer
 * Last Screenshot Viewer
 * Dual YOLO Model Architecture
-* PPE Model Integration
 * Modular Project Architecture
 * Well-Documented Source Code
 
@@ -38,13 +42,13 @@ The system automatically captures screenshots, logs events into CSV files, and p
 
 # In Progress
 
-* Helmet Detection Validation
-* No Helmet Detection
-* Safety Vest Detection
-* PPE Bounding Boxes
-* PPE Event Logging
-* PPE Dashboard Statistics
-* PPE Screenshot Capture
+* PPE Violation Logging
+* PPE Dashboard Analytics
+* Auto Dashboard Refresh
+* Weapon Detection Integration
+* Safety Alert System
+* Violation Manager
+* Performance Optimization
 
 ---
 
@@ -52,13 +56,13 @@ The system automatically captures screenshots, logs events into CSV files, and p
 
 * Weapon Detection
 * Email Alerts
-* Safety Violation Alerts
+* Audio Alarm
 * Dashboard Charts
 * Daily Reports
 * RTSP Camera Support
 * Multi-Camera Monitoring
-* Video File Support
-* Performance Optimization
+* Video File Processing
+* AI-Based Safety Reports
 
 ---
 
@@ -80,6 +84,7 @@ Smart_Safety_Monitor/
 │
 ├── output/
 ├── screenshots/
+├── videos/
 │
 ├── utils/
 │   ├── camera.py
@@ -95,6 +100,7 @@ Smart_Safety_Monitor/
 │
 ├── main.py
 ├── test_ppe_model.py
+├── test_ppe_video.py
 ├── requirements.txt
 ├── README.md
 └── .gitignore
@@ -124,11 +130,15 @@ git clone https://github.com/vikas-tikapur/Smart_Safety_Monitor.git
 cd Smart_Safety_Monitor
 ```
 
+---
+
 ## Create Virtual Environment
 
 ```bash
 py -3.10 -m venv venv
 ```
+
+---
 
 ## Activate Virtual Environment
 
@@ -138,7 +148,9 @@ py -3.10 -m venv venv
 .\venv\Scripts\Activate.ps1
 ```
 
-## Install Requirements
+---
+
+## Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -154,6 +166,8 @@ pip install -r requirements.txt
 python main.py
 ```
 
+---
+
 ## Open Dashboard
 
 ```bash
@@ -164,77 +178,134 @@ python -m dashboard.dashboard
 
 # AI Models
 
-| Model        | Purpose                   | Status |
-| ------------ | ------------------------- | :----: |
-| YOLOv8 COCO  | Person & Mobile Detection |    ✅   |
-| PPE Model    | Helmet, Vest & No Helmet  |   🚧   |
-| Weapon Model | Gun & Knife Detection     |   🚧   |
+| Model         | Purpose                                   | Status |
+| ------------- | ----------------------------------------- | :----: |
+| YOLOv8 COCO   | Person & Mobile Detection                 |    ✅   |
+| PPE YOLOv8    | Helmet, No Helmet & Safety Vest Detection |    ✅   |
+| Weapon YOLOv8 | Weapon Detection                          |   🚧   |
 
 ---
 
-# 📈 Current Progress
+# Current Progress
 
-| Module                      | Status |
-| --------------------------- | :----: |
-| Project Architecture        |    ✅   |
-| Camera Module               |    ✅   |
-| Object Detection            |    ✅   |
-| Person Detection            |    ✅   |
-| Mobile Detection            |    ✅   |
-| Screenshot Manager          |    ✅   |
-| CSV Event Logging           |    ✅   |
-| Dashboard UI                |    ✅   |
-| Dashboard Analytics         |    ✅   |
-| FPS Counter                 |    ✅   |
-| Date & Time                 |    ✅   |
-| Dual YOLO Architecture      |    ✅   |
-| PPE Model Integration       |    ✅   |
-| Helmet Detection Validation |   🚧   |
-| Safety Vest Detection       |   🚧   |
-| Weapon Detection            |   🚧   |
+| Module                | Status |
+| --------------------- | :----: |
+| Project Architecture  |    ✅   |
+| Camera Module         |    ✅   |
+| YOLOv8 COCO Detection |    ✅   |
+| Person Detection      |    ✅   |
+| Mobile Detection      |    ✅   |
+| PPE Model Integration |    ✅   |
+| Helmet Detection      |    ✅   |
+| No Helmet Detection   |    ✅   |
+| Safety Vest Detection |    ✅   |
+| PPE Visualization     |    ✅   |
+| Live PPE Counters     |    ✅   |
+| Screenshot Manager    |    ✅   |
+| CSV Event Logging     |    ✅   |
+| Dashboard UI          |    ✅   |
+| Dashboard Analytics   |    ✅   |
+| FPS Counter           |    ✅   |
+| Date & Time           |    ✅   |
+| Weapon Detection      |   🚧   |
+| AI Alerts             |   🚧   |
+| RTSP Camera Support   |   🚧   |
 
-**Overall Project Completion:** **≈ 85%**
+### Overall Project Completion
+
+**≈ 90%**
 
 ---
 
 # Project Goals
 
 * Improve workplace safety using AI.
-* Detect safety violations in real time.
+* Detect workplace safety violations in real time.
 * Capture screenshots as evidence.
 * Generate CSV event logs.
 * Provide live monitoring dashboard.
 * Support multiple AI detection models.
 * Integrate custom YOLOv8 models.
 * Support CCTV and RTSP cameras.
+* Build a scalable and maintainable Computer Vision application.
+
+---
+
+# System Architecture
+
+```text
+                    Webcam
+                       │
+                       ▼
+                 Video Frame
+                       │
+      ┌────────────────┴────────────────┐
+      ▼                                 ▼
+YOLOv8 COCO Model                 PPE YOLO Model
+(Person, Mobile)          (Helmet, No Helmet, Vest)
+      │                                 │
+      └────────────────┬────────────────┘
+                       ▼
+                 Drawing Module
+                       │
+      ┌───────────────┼────────────────┐
+      ▼               ▼                ▼
+ Status Panel    Screenshot      Event Logger
+                       │
+                       ▼
+                 Dashboard Analytics
+```
+
+---
+
+# Screenshots
+
+### Live Monitoring
+
+>  ![Live Monitoring](image.png)
+![Live Monitoring](image-1.png)
+
+### Dashboard
+
+> ![dashboard](image-2.png)
+
+### PPE Detection
+
+> ![ppe detection](<Screenshot 2026-06-24 103621.png>)
+![alt text](<Screenshot 2026-06-24 103500.png>)
 
 ---
 
 # Current Version
 
-## **v0.5.0 — Dual YOLO Architecture & Dashboard**
+## **v0.6.0 — PPE Detection & Live Monitoring**
 
 ### Completed
 
 * Professional Modular Architecture
-* Dual YOLO Model Support
+* Dual YOLO Model Pipeline
 * Person Detection
 * Mobile Phone Detection
+* PPE Detection
+* Helmet Detection
+* No Helmet Detection
+* Safety Vest Detection
+* Live PPE Counters
+* Professional Monitoring Panel
 * Screenshot Capture
 * CSV Event Logging
 * Dashboard Analytics
 * Live Dashboard Refresh
 * FPS Counter
-* Professional Monitoring Panel
-* PPE Model Integration
+* Date & Time Display
 
-### In Progress
+### 🚧 In Progress
 
-* Helmet Detection Validation
-* Safety Vest Detection
-* No Helmet Detection
+* PPE Violation Logging
+* Violation Manager
 * Weapon Detection
 * AI Alerts
+* RTSP Camera Support
 
 ---
 
@@ -246,4 +317,4 @@ GitHub: https://github.com/vikas-tikapur
 
 ---
 
-**If you found this project useful, consider giving it a star on GitHub!**
+⭐ **If you found this project useful, consider giving it a Star on GitHub!**

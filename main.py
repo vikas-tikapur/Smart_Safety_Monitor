@@ -222,6 +222,9 @@ def main():
                         event_name="Mobile Detected",
                         person_count=person_count,
                         mobile_count=mobile_count,
+                        helmet_count=helmet_count,
+                        nohelmet_count=nohelmet_count,
+                        vest_count=vest_count,
                         screenshot_name=screenshot_name
                     )
 
