@@ -42,6 +42,7 @@ from utils.mobile_detector import get_mobile_detections
 from utils.screenshot import ScreenshotManager
 from utils.date_time import get_current_datetime
 from utils.logger import EventLogger
+from utils.violation_manager import ViolationManager
 from utils.fps import FPSCounter
 
 
@@ -56,10 +57,10 @@ def main():
     screenshot_manager = None
     logger = None
     fps_counter = FPSCounter()
+    violation_manager = ViolationManager()
 
     # Frame-based event tracking
     mobile_frame_count = 0
-    mobile_event_captured = False
 
     print("=" * 55)
     print("        Smart Safety Monitor")
@@ -201,42 +202,32 @@ def main():
                     color=(255, 0, 255)
                 )
 
-            if mobile_count > 0:
+            mobile_frame_count, mobile_violation = (
+                violation_manager.check_mobile_violation(
+                    mobile_count,
+                    mobile_frame_count,
+                    MOBILE_FRAME_THRESHOLD
+                )
+            )
 
-                mobile_frame_count += 1
+            if mobile_violation:
 
-                # Capture only once for the current mobile event.
-                if (
-                    mobile_frame_count >= MOBILE_FRAME_THRESHOLD
-                    and not mobile_event_captured
-                ):
+                screenshot_name = screenshot_manager.save_screenshot(
+                    frame,
+                    event_name="mobile"
+                )
 
-                    # Save screenshot and get its filename.
-                    screenshot_name = screenshot_manager.save_screenshot(
-                        frame,
-                        event_name="mobile"
-                    )
+                logger.log_event(
+                    event_name="Mobile Detected",
+                    person_count=person_count,
+                    mobile_count=mobile_count,
+                    helmet_count=helmet_count,
+                    nohelmet_count=nohelmet_count,
+                    vest_count=vest_count,
+                    screenshot_name=screenshot_name
+                )
 
-                    # Write event to CSV.
-                    logger.log_event(
-                        event_name="Mobile Detected",
-                        person_count=person_count,
-                        mobile_count=mobile_count,
-                        helmet_count=helmet_count,
-                        nohelmet_count=nohelmet_count,
-                        vest_count=vest_count,
-                        screenshot_name=screenshot_name
-                    )
-
-                    print("Mobile event confirmed. Screenshot captured.\n")
-
-                    # Prevent duplicate screenshots for the same event.
-                    mobile_event_captured = True
-
-            else:
-                # Mobile disappeared -> reset for the next event.
-                mobile_frame_count = 0
-                mobile_event_captured = False
+                print("Mobile event confirmed. Screenshot captured.\n")
 
             # Calculate current FPS.
             fps = fps_counter.update()
