@@ -25,6 +25,7 @@ from utils.camera import initialize_camera, release_camera
 from utils.constants import (
     WINDOW_NAME,
     MOBILE_FRAME_THRESHOLD,
+    NOHELMET_FRAME_THRESHOLD,
 )
 from utils.detector import ObjectDetector
 from utils.ppe_detector import (
@@ -61,6 +62,7 @@ def main():
 
     # Frame-based event tracking
     mobile_frame_count = 0
+    nohelmet_frame_count = 0
 
     print("=" * 55)
     print("        Smart Safety Monitor")
@@ -228,6 +230,34 @@ def main():
                 )
 
                 print("Mobile event confirmed. Screenshot captured.\n")
+
+            nohelmet_frame_count, nohelmet_violation = (
+                violation_manager.check_nohelmet_violation(
+                    person_count,
+                    nohelmet_count,
+                    nohelmet_frame_count,
+                    NOHELMET_FRAME_THRESHOLD
+                )
+            )
+
+            if nohelmet_violation:
+
+                screenshot_name = screenshot_manager.save_screenshot(
+                    frame,
+                    event_name="nohelmet"
+                )
+
+                logger.log_event(
+                    event_name="No Helmet Detected",
+                    person_count=person_count,
+                    mobile_count=mobile_count,
+                    helmet_count=helmet_count,
+                    nohelmet_count=nohelmet_count,
+                    vest_count=vest_count,
+                    screenshot_name=screenshot_name
+                )
+
+                print("No Helmet violation detected.\n")
 
             # Calculate current FPS.
             fps = fps_counter.update()
