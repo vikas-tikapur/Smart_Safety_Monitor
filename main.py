@@ -23,6 +23,8 @@ import cv2
 
 from utils.camera import initialize_camera, release_camera
 from utils.constants import (
+    PROJECT_NAME,
+    VERSION,
     WINDOW_NAME,
     MOBILE_FRAME_THRESHOLD,
     NOHELMET_FRAME_THRESHOLD,
@@ -44,6 +46,7 @@ from utils.screenshot import ScreenshotManager
 from utils.date_time import get_current_datetime
 from utils.logger import EventLogger
 from utils.violation_manager import ViolationManager
+from utils.event_manager import EventManager
 from utils.fps import FPSCounter
 
 
@@ -65,7 +68,8 @@ def main():
     nohelmet_frame_count = 0
 
     print("=" * 55)
-    print("        Smart Safety Monitor")
+    print(f"        {PROJECT_NAME}")
+    print(f"Version : {VERSION}")
     print("=" * 55)
     print("Initializing application...\n")
 
@@ -89,6 +93,13 @@ def main():
         # Initialize event logger
         logger = EventLogger()
         print("Event logger initialized successfully.\n")
+
+        # Initialize event manager
+        event_manager = EventManager(
+            screenshot_manager,
+            logger
+        )
+        print("Event manager initialized successfully.\n")
 
         print("Press 'Q' to exit.\n")
 
@@ -214,22 +225,15 @@ def main():
 
             if mobile_violation:
 
-                screenshot_name = screenshot_manager.save_screenshot(
-                    frame,
-                    event_name="mobile"
-                )
-
-                logger.log_event(
+                event_manager.handle_event(
+                    frame=frame,
                     event_name="Mobile Detected",
                     person_count=person_count,
                     mobile_count=mobile_count,
                     helmet_count=helmet_count,
                     nohelmet_count=nohelmet_count,
-                    vest_count=vest_count,
-                    screenshot_name=screenshot_name
+                    vest_count=vest_count
                 )
-
-                print("Mobile event confirmed. Screenshot captured.\n")
 
             nohelmet_frame_count, nohelmet_violation = (
                 violation_manager.check_nohelmet_violation(
@@ -242,22 +246,15 @@ def main():
 
             if nohelmet_violation:
 
-                screenshot_name = screenshot_manager.save_screenshot(
-                    frame,
-                    event_name="nohelmet"
-                )
-
-                logger.log_event(
+                event_manager.handle_event(
+                    frame=frame,
                     event_name="No Helmet Detected",
                     person_count=person_count,
                     mobile_count=mobile_count,
                     helmet_count=helmet_count,
                     nohelmet_count=nohelmet_count,
-                    vest_count=vest_count,
-                    screenshot_name=screenshot_name
+                    vest_count=vest_count
                 )
-
-                print("No Helmet violation detected.\n")
 
             # Calculate current FPS.
             fps = fps_counter.update()

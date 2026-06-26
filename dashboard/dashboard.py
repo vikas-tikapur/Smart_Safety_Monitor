@@ -71,27 +71,27 @@ class Dashboard:
 
     def refresh_dashboard(self):
         """
-        Refresh dashboard statistics and update the UI.
+        Refresh dashboard statistics automatically.
         """
 
-        # Reload latest statistics
-        self.load_statistics()
+        # Read latest statistics
+        self.stats = self.analytics.get_statistics()
 
-        # Update statistic cards
+        # Update cards
         self.card_labels["Total Events"].config(
-            text=self.stats["total_events"]
+            text=str(self.stats["total_events"])
         )
 
         self.card_labels["Today's Events"].config(
-            text=self.stats["today_events"]
+            text=str(self.stats["today_events"])
         )
 
         self.card_labels["Mobile Events"].config(
-            text=self.stats["mobile_events"]
+            text=str(self.stats["mobile_events"])
         )
 
         self.card_labels["Total Persons"].config(
-            text=self.stats["total_persons"]
+            text=str(self.stats["total_persons"])
         )
 
         # Update information panel
@@ -102,6 +102,9 @@ class Dashboard:
         self.screenshot_label.config(
             text=f"Last Screenshot : {self.stats['last_screenshot']}"
         )
+
+        # Refresh every 2 seconds
+        self.root.after(2000, self.refresh_dashboard)
 
     def create_widgets(self):
         """
@@ -261,6 +264,8 @@ class Dashboard:
         """
         Start dashboard.
         """
+
+        self.refresh_dashboard()
 
         self.root.mainloop()
 
