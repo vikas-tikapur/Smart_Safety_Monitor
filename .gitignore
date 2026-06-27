@@ -17,6 +17,8 @@ logs/*.csv
 
 # Screenshots
 screenshots/*
+!screenshots/
+!screenshots/no_helmet_detected_2026-06-27_17-38-36-527989.jpg
 
 # Output Files
 output/*
