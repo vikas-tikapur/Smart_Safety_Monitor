@@ -83,3 +83,13 @@ PPE_MODEL_NAME = "models/ppe/best.pt"
 # Confidence threshold for PPE detection.
 # Objects below this confidence will be ignored.
 PPE_CONFIDENCE = 0.35
+
+# =========================================================
+# Weapon Detection Settings
+# =========================================================
+
+# Path to the weapon model.
+WEAPON_MODEL_PATH = "models/weapon/best.pt"
+
+# Confidence threshold for weapon detection.
+WEAPON_CONFIDENCE = 0.40

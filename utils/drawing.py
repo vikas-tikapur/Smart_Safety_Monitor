@@ -127,6 +127,7 @@ def draw_status_panel(
     helmet_count,
     nohelmet_count,
     vest_count,
+    weapon_count,
     fps,
     current_time
 ):
@@ -161,7 +162,7 @@ def draw_status_panel(
     x = 10
     y = 10
     width = 310
-    height = 250
+    height = 270
 
     # Black filled rectangle
     cv2.rectangle(
@@ -255,10 +256,21 @@ def draw_status_panel(
         2
     )
 
+    # Weapon count
+    cv2.putText(
+        frame,
+        f"Weapons      : {weapon_count}",
+        (20, 190),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.55,
+        (255, 255, 255),
+        2
+    )
+
     cv2.line(
         frame,
-        (20, 180),
-        (300, 180),
+        (20, 205),
+        (300, 205),
         (180, 180, 180),
         1
     )
@@ -267,7 +279,7 @@ def draw_status_panel(
     cv2.putText(
         frame,
         f"FPS          : {fps}",
-        (20, 205),
+        (20, 230),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
         (255, 255, 255),
@@ -277,7 +289,7 @@ def draw_status_panel(
     cv2.putText(
         frame,
         "Status       : Monitoring",
-        (20, 228),
+        (20, 253),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.55,
         (0, 255, 0),
@@ -287,7 +299,7 @@ def draw_status_panel(
     cv2.putText(
         frame,
         f"Time : {current_time}",
-        (20, 248),
+        (20, 273),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.48,
         (255, 255, 255),

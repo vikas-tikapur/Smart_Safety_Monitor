@@ -42,6 +42,10 @@ from utils.drawing import (
     draw_status_panel,
 )
 from utils.mobile_detector import get_mobile_detections
+from utils.weapon_detector import (
+    WeaponDetector,
+    get_weapon_detections,
+)
 from utils.screenshot import ScreenshotManager
 from utils.date_time import get_current_datetime
 from utils.logger import EventLogger
@@ -58,6 +62,7 @@ def main():
     camera = None
     detector = None
     ppe_detector = None
+    weapon_detector = None
     screenshot_manager = None
     logger = None
     fps_counter = FPSCounter()
@@ -85,6 +90,10 @@ def main():
         # Load PPE model
         ppe_detector = PPEDetector()
         print("PPE model initialized successfully.\n")
+
+        # Load Weapon model
+        weapon_detector = WeaponDetector()
+        print("Weapon model initialized successfully.\n")
 
         # Initialize screenshot manager
         screenshot_manager = ScreenshotManager()
@@ -130,6 +139,11 @@ def main():
             helmet_count = len(helmet_detections)
             nohelmet_count = len(nohelmet_detections)
             vest_count = len(vest_detections)
+
+            # Run Weapon detection
+            weapon_detections = weapon_detector.detect(frame)
+            weapon_detections = get_weapon_detections(weapon_detections)
+            weapon_count = len(weapon_detections)
 
             # Get only mobile detections
             mobile_detections = get_mobile_detections(detections)
@@ -215,6 +229,17 @@ def main():
                     color=(255, 0, 255)
                 )
 
+            # ----------------------------------------
+            # Draw Weapon Detections
+            # ----------------------------------------
+            for detection in weapon_detections:
+
+                draw_ppe_detection(
+                    frame,
+                    detection,
+                    color=(0, 165, 255)   # Orange
+                )
+
             mobile_frame_count, mobile_violation = (
                 violation_manager.check_mobile_violation(
                     mobile_count,
@@ -273,6 +298,7 @@ def main():
                 helmet_count,
                 nohelmet_count,
                 vest_count,
+                weapon_count,
                 fps,
                 current_time
             )
