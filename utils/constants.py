@@ -73,10 +73,6 @@ MOBILE_FRAME_THRESHOLD = 5
 # that a no-helmet violation is actually detected.
 NOHELMET_FRAME_THRESHOLD = 5
 
-# Number of consecutive frames required before confirming
-# that a no-vest violation is actually detected.
-NOVEST_FRAME_THRESHOLD = 5
-
 # =========================================================
 # PPE Detection Settings
 # =========================================================

@@ -38,8 +38,6 @@ class EventLogger:
         Initialize the logger.
         """
 
-        print("Creating logger...")
-
         # Project root directory
         self.project_root = Path(__file__).resolve().parent.parent
 
@@ -49,9 +47,6 @@ class EventLogger:
 
         # CSV file
         self.csv_file = self.logs_folder / "detections.csv"
-
-        print("CSV exists:", self.csv_file.exists())
-        print("CSV path:", self.csv_file)
 
         # Create CSV with header if it doesn't exist
         if not self.csv_file.exists():
@@ -70,8 +65,6 @@ class EventLogger:
                     "Vest Count",
                     "Screenshot"
                 ])
-
-            print("CSV header written.")
 
     def log_event(
         self,
