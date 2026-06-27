@@ -262,20 +262,21 @@ YOLOv8 COCO Model                 PPE YOLO Model
 
 ### Live Monitoring
 
->  ![Live Monitoring]!(live_detection.png)
-![Live Monitoring] docs/images/live_detection_site.png
+![Live Monitoring](docs/images/live_detection.png)
+
+![Live Monitoring](docs/images/live_detection_site.png)
 
 ### Dashboard
 
-> ![dashboard]!(dashboard.png)
+![Dashboard](docs/images/dashboard.png)
 
 ### PPE Detection
 
-> ![ppe detection]!(image-2.png)
-!(image-4.png)
+![PPE Detection](docs/images/helmet_detection.png)
 
 ### No Helmet Detection
-![No Helmet]screenshots/no_helmet_detected_2026-06-27_17-38-36-527989.jpg
+
+![No Helmet](screenshots/no_helmet_detected_2026-06-27_17-38-36-527989.jpg)
 
 ---
 
