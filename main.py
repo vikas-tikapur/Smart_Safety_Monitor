@@ -28,6 +28,7 @@ from utils.constants import (
     WINDOW_NAME,
     MOBILE_FRAME_THRESHOLD,
     NOHELMET_FRAME_THRESHOLD,
+    WEAPON_FRAME_THRESHOLD,
 )
 from utils.detector import ObjectDetector
 from utils.ppe_detector import (
@@ -65,12 +66,14 @@ def main():
     weapon_detector = None
     screenshot_manager = None
     logger = None
+    event_manager = None
     fps_counter = FPSCounter()
     violation_manager = ViolationManager()
 
     # Frame-based event tracking
     mobile_frame_count = 0
     nohelmet_frame_count = 0
+    weapon_frame_count = 0
 
     print("=" * 55)
     print(f"        {PROJECT_NAME}")
@@ -257,7 +260,8 @@ def main():
                     mobile_count=mobile_count,
                     helmet_count=helmet_count,
                     nohelmet_count=nohelmet_count,
-                    vest_count=vest_count
+                    vest_count=vest_count,
+                    weapon_count=weapon_count
                 )
 
             nohelmet_frame_count, nohelmet_violation = (
@@ -278,14 +282,34 @@ def main():
                     mobile_count=mobile_count,
                     helmet_count=helmet_count,
                     nohelmet_count=nohelmet_count,
-                    vest_count=vest_count
+                    vest_count=vest_count,
+                    weapon_count=weapon_count
                 )
+
+            weapon_frame_count, weapon_violation = (
+                violation_manager.check_weapon_violation(
+                    weapon_count,
+                    weapon_frame_count,
+                    WEAPON_FRAME_THRESHOLD
+                )
+            )
+
+            if weapon_violation:
+                event_manager.handle_event(
+                    frame=frame,
+                    event_name="Weapon Detected",
+                    person_count=person_count,
+                    mobile_count=mobile_count,
+                    helmet_count=helmet_count,
+                    nohelmet_count=nohelmet_count,
+                    vest_count=vest_count,
+                    weapon_count=weapon_count
+           )
+ 
+            
 
             # Calculate current FPS.
             fps = fps_counter.update()
-
-            # Display FPS on the frame.
-            # draw_fps(frame, fps)
 
             # Get current system date and time.
             current_time = get_current_datetime()

@@ -38,7 +38,7 @@ class Dashboard:
         self.root = tk.Tk()
 
         self.root.title("Smart Safety Monitor Dashboard")
-        self.root.geometry("700x500")
+        self.root.geometry("700x550")  # Resized height to fit the new row cleanly
         self.root.resizable(False, False)
 
         # -----------------------------
@@ -92,6 +92,10 @@ class Dashboard:
 
         self.card_labels["Total Persons"].config(
             text=str(self.stats["total_persons"])
+        )
+
+        self.card_labels["Weapon Events"].config(
+            text=str(self.stats["weapon_events"])
         )
 
         # Update information panel
@@ -155,11 +159,20 @@ class Dashboard:
             1
         )
 
+        self.create_stat_card(
+            self.stats_frame,
+            "Weapon Events",
+            self.stats["weapon_events"],
+            2,
+            0
+        )
+
         self.stats_frame.columnconfigure(0, weight=1)
         self.stats_frame.columnconfigure(1, weight=1)
 
         self.stats_frame.rowconfigure(0, weight=1)
         self.stats_frame.rowconfigure(1, weight=1)
+        self.stats_frame.rowconfigure(2, weight=1)
 
         # -----------------------------
         # Information Panel

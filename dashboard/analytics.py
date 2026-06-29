@@ -13,7 +13,8 @@ Responsibilities
 1. Read detections.csv
 2. Calculate total events
 3. Calculate total mobile events
-4. Return dashboard statistics
+4. Calculate total weapon events
+5. Return dashboard statistics
 =========================================================
 """
 
@@ -32,6 +33,7 @@ class DashboardAnalytics:
         "total_events": 0,
         "today_events": 0,
         "mobile_events": 0,
+        "weapon_events": 0,
         "total_persons": 0,
         "latest_event": "No Data",
         "last_screenshot": "No Screenshot"
@@ -75,6 +77,10 @@ class DashboardAnalytics:
         # Count today's events
         today_events = len(df[df["Timestamp"].dt.date == today])
 
+        weapon_events = len(
+            df[df["Event"] == "Weapon Detected"]
+        )
+
         stats = {
             "total_events": len(df),
 
@@ -83,6 +89,8 @@ class DashboardAnalytics:
             "mobile_events": len(
                 df[df["Event"] == "Mobile Detected"]
             ),
+
+            "weapon_events": weapon_events,
 
             "total_persons": int(df["Person Count"].sum()),
 

@@ -63,6 +63,7 @@ class EventLogger:
                     "Helmet Count",
                     "No Helmet Count",
                     "Vest Count",
+                    "Weapon Count",
                     "Screenshot"
                 ])
 
@@ -74,6 +75,7 @@ class EventLogger:
         helmet_count,
         nohelmet_count,
         vest_count,
+        weapon_count,
         screenshot_name
     ):
         """
@@ -94,7 +96,8 @@ class EventLogger:
                 helmet_count,
                 nohelmet_count,
                 vest_count,
+                weapon_count,
                 screenshot_name
             ])
 
-        print("Event logged successfully.")
+        print(f"{event_name} logged successfully.")

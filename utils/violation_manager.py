@@ -215,3 +215,32 @@ class ViolationManager:
         )
 
         return frame_count, violation_detected
+
+    def check_weapon_violation(
+        self,
+        weapon_count,
+        frame_count,
+        threshold
+    ):
+        """
+        Check whether a weapon violation should be triggered.
+        """
+
+        if weapon_count == 0:
+
+            self.weapon_event_active = False
+
+            return 0, False
+
+        (
+            frame_count,
+            self.weapon_event_active,
+            violation_detected
+        ) = self.check_violation(
+            event_active=self.weapon_event_active,
+            object_count=weapon_count,
+            frame_count=frame_count,
+            threshold=threshold
+        )
+
+        return frame_count, violation_detected

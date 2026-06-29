@@ -93,3 +93,6 @@ WEAPON_MODEL_PATH = "models/weapon/best.pt"
 
 # Confidence threshold for weapon detection.
 WEAPON_CONFIDENCE = 0.40
+
+# Weapon Violation
+WEAPON_FRAME_THRESHOLD = 3

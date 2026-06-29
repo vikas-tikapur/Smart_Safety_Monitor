@@ -45,7 +45,8 @@ class EventManager:
         mobile_count,
         helmet_count,
         nohelmet_count,
-        vest_count
+        vest_count,
+        weapon_count
     ):
         """
         Handle a safety event.
@@ -72,6 +73,9 @@ class EventManager:
 
         vest_count : int
             Number of detected safety vests.
+
+        weapon_count : int
+            Number of detected weapons.
         """
 
         # Save screenshot
@@ -88,6 +92,7 @@ class EventManager:
             helmet_count=helmet_count,
             nohelmet_count=nohelmet_count,
             vest_count=vest_count,
+            weapon_count=weapon_count,
             screenshot_name=screenshot_name
         )
 
