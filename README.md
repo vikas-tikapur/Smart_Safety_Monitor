@@ -597,7 +597,7 @@ The architecture is scalable and can easily be extended with additional AI model
 ### Connect with Me
 
 - GitHub: https://github.com/vikas-tikapur
-
+- Portfolio: https://vikas-tikapur.github.io/portfolio-website/index.html
 ---
 
 # 📄 License
